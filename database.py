@@ -25,20 +25,26 @@ class SyncDevice(object):
     new_file = SyncFile(filename, sync_time)
     self.files.append(new_file)
     return new_file
-    
+
+def build_from_file(filename):
+  db = Database()
+  in_file = open(filename, "r")
+  root = etree.parse(filename).getroot()
+  device_elements = root.getchildren()
+  for device_element in device_elements:
+    uuid = device_element.get("uuid")
+    sync_file = device_element.get("sync_file")
+    new_device = db.add_device(uuid, sync_file)
+    file_elements = device_element.getchildren()
+    for file_element in file_elements:
+      filename = file_element.get("filename")
+      sync_time = file_element.get("sync_time")
+      new_device.add_file(filename, sync_time)
+  return db
+
+   
 
 class Database(object):
-  def build_from_file(filename):
-    db = Database()
-    in_file = open(filename, "r")
-    root = etree.parse(filename).getroot()
-    device_elements = root.getchildren()
-    for device_element in device_elements:
-      uuid = device_element.get("uuid")
-      sync_file = device_element.get("sync_file")
-      new_device = db.add_device(uuid, sync_file)
-      file_elements = device_element.getchildren()
-
   def __init__(self):
     self.devices = []
 
