@@ -1,0 +1,14 @@
+THIS PROGRAM IS CURRENTLY BEING WRITTEN BY A STUDENT AT A 24 HACK-DAY
+THIS FILE IS BEING WRITTEN 15 HOURS IN
+This software was written by Brendan Jackman and he owns the copyright. It is
+released under the terms of the GNU General Public License version 3. A copy of
+the license will be attached by the time this software has been distributed.
+
+TODO: explain what this program is for
+
+this program depends on pyudev, lxml and pyinotify
+
+udevadm can be useful for debgging (name may differ between distros)
+
+this program does not work for all USB sticks - if it doesnt get a UUID it won't
+work.
