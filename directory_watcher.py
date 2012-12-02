@@ -5,12 +5,21 @@ device's sync directory (the device must already be in the database)
 """
 import database
 import pyinotify
+from pyinotify import *
 
-mask = pyinotify.IN_CREATE
+mask = IN_CREATE | IN_DELETE | IN_MODIFY | IN_MOVED_TO | IN_MOVED_FROM 
 
 class INotifyCallback(pyinotify.ProcessEvent):
   def process_IN_CREATE(self, event):
     print "File created: " + event.pathname
+  def process_IN_DELETE(self, event):
+    print "File deleted: " + event.pathname
+  def process_IN_MODIFY(self, event):
+    print "File modified: " + event.pathname
+  def process_IN_MOVED_TO(self, event):
+    print "File 'moved to': " + event.pathname
+  def process_IN_MOVED_FROM(self, event):
+    print "File 'moved from': " + event.pathname
 
 class DirectoryWatcher(object):
   def __init__(self):
