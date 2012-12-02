@@ -1,11 +1,29 @@
 #!/usr/bin/python
 #for linux: adding a new interface to the database
+#takes the directory to be synced as an argument
 import subprocess
 import sys
 import os
+from ctypes import cdll
 
 import pyudev
 from pyudev import Context
+
+if len(sys.argv) < 2:
+  print "Please proved the directory you want to sync as an argument."
+  sys.exit()
+
+sync_dir = sys.argv[1]
+if not os.path.exists(sync_dir):
+  print("Specified sync path does not exist. Create it? (y/n)")
+  if (raw_input() == "y"):
+    try:
+      os.makedirs(sync_dir)
+    except e:
+      print "could not create that directory:"
+      print str(e)
+      sys.exit()
+
 context = Context()
 
 available_partitions = []
@@ -33,9 +51,8 @@ def mount(device):
   mount_point = os.path.join(home, "." + "synchrotron-" + uuid)
   if not os.path.exists(mount_point):
     os.mkdir(mount_point)
-  mount_process = subprocess.Popen(["mount", device_name, mount_point])
-  mount_process.communicate()
-  if mount_process.returncode == 0:
+  return_code = subprocess.call(["mount", device_name, mount_point])
+  if return_code == 0:
     return mount_point
   else:
     return None
@@ -61,4 +78,6 @@ if mount_point is not None:
 
 uuid = partition["ID_FS_UUID"]
 
-print mount(partition)
+if mount(partition) is None:
+  print "Couldn't mount your device. Please run me as root!"
+  sys.exit()
