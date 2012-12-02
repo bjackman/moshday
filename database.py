@@ -46,14 +46,14 @@ def build_from_file(filename):
 
 class Database(object):
   def __init__(self):
-    self.devices = []
+    self.devices = {}
 
   #write what's in this database object into self.xml_file
   def store(self, xml_file_name=default_database_path):
     output_file = open(xml_file_name, "w")
     root = Element("synchrotron")
     #structure the root element
-    for dev in self.devices:
+    for dev in self.devices.itervalues():
       devElement = Element("device")
       devElement.set("uuid", dev.uuid)
       devElement.set("sync_dir", dev.sync_dir)
@@ -71,5 +71,5 @@ class Database(object):
   #add a device to this database
   def add_device(self, uuid, sync_dir):
     new_device = SyncDevice(uuid, sync_dir)
-    self.devices.append(new_device)
+    self.devices[uuid] = new_device
     return new_device
