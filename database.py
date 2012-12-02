@@ -33,8 +33,8 @@ def build_from_file(filename):
   device_elements = root.getchildren()
   for device_element in device_elements:
     uuid = device_element.get("uuid")
-    sync_file = device_element.get("sync_file")
-    new_device = db.add_device(uuid, sync_file)
+    sync_dir = device_element.get("sync_dir")
+    new_device = db.add_device(uuid, sync_dir)
     file_elements = device_element.getchildren()
     for file_element in file_elements:
       filename = file_element.get("filename")
