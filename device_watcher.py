@@ -27,15 +27,18 @@ monitor = pyudev.Monitor.from_netlink(context)
 monitor.filter_by("block", device_type="partition")
 monitor.start()
 #watch forever for new devices
-for device in monitor:
-  if device.action == "add":
+#this seems to return a tuple and not a Device.. strange
+for device_tuple in monitor:
+  action = device_tuple[0]
+  device = device_tuple[1]
+  if action == "add":
     if device["ID_FS_UUID"] in db.devices:
-      directory-watcher.start(db.devices[device["ID_FS_UUID"]])
+      directory_watcher.start(db.devices[device["ID_FS_UUID"]])
     else:
       print "device %s inserted, not synced." % device["DEVNAME"]
-  elif device.action == "remove":
+  elif action == "remove":
     if device["ID_FS_UUID"] in db.devices:
-      directory-watcher.stop(db.devices[device["ID_FS_UUID"]])
+      directory_watcher.stop(db.devices[device["ID_FS_UUID"]])
     else:
       print "device %s removed, not synced." % device["DEVNAME"]
     
