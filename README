@@ -12,3 +12,5 @@ udevadm can be useful for debgging (name may differ between distros)
 
 this program does not work for all USB sticks - if it doesnt get a UUID it won't
 work.
+
+this program may require newer versions of pyudev
