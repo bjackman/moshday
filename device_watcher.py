@@ -8,7 +8,7 @@ import pyudev
 from pyudev import Context, Monitor
 import database
 from database import Database
-from common import default_db_path
+from common import default_db_path, mount, unmount, mount_point
 from directory_watcher import DirectoryWatcher
 
 #if no database
@@ -33,14 +33,20 @@ monitor.start()
 for device_tuple in monitor:
   action = device_tuple[0]
   device = device_tuple[1]
+  uuid = device["ID_FS_UUID"]
+  devname = device["DEVNAME"]
   if action == "add":
-    if device["ID_FS_UUID"] in db.devices:
-      dir_watcher.start(db.devices[device["ID_FS_UUID"]])
+    if devname in db.devices:
+      mountdir = mount_point(uuid)
+      if not os.path.exists(mountdir):
+        os.makedirs(mountdir)
+      mount(devname, mountdir)
+      dir_watcher.start(db.devices[uuid])
     else:
-      print "device %s inserted, not synced." % device["DEVNAME"]
+      print "device %s inserted, not synced." % devname
   elif action == "remove":
     if device["ID_FS_UUID"] in db.devices:
-      dir_watcher.stop(db.devices[device["ID_FS_UUID"]])
+      dir_watcher.stop(db.devices[uuid])
     else:
-      print "device %s removed, not synced." % device["DEVNAME"]
+      print "device %s removed, not synced." % device[devname]
     
