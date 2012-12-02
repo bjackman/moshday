@@ -27,7 +27,7 @@ monitor = pyudev.Monitor.from_netlink(context)
 monitor.filter_by("block", device_type="partition")
 monitor.start()
 #watch forever for new devices
-for device in iter(monitor.poll, None):
+for device in monitor:
   if device.action == "add":
     if device["ID_FS_UUID"] in db.devices:
       directory-watcher.start(db.devices[device["ID_FS_UUID"]])
