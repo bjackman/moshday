@@ -1,16 +1,31 @@
-THIS PROGRAM IS CURRENTLY BEING WRITTEN BY A STUDENT AT A 24 HACK-DAY
-THIS FILE IS BEING WRITTEN 15 HOURS IN
-This software was written by Brendan Jackman and he owns the copyright. It is
-released under the terms of the GNU General Public License version 3. A copy of
-the license will be attached by the time this software has been distributed.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-TODO: explain what this program is for
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Synchrotron is a tool for syncing a directory with a USB device. It is currently
+unfinished, most work having been done at a single hack-day. 
+
+Contact Brendan Jackman at jackmab1-remove_this_antispam_bit@cs.man.ac.uk with
+any enquiries.
 
 this program depends on pyudev, lxml and pyinotify
 
 udevadm can be useful for debgging (name may differ between distros)
 
-this program does not work for all USB sticks - if it doesnt get a UUID it won't
-work.
+if this program does not react to a device, use udevadm to check whether your device is being 
+assigned a UUID.
+In testing this was found to be a problem for one device. This is under
+investigation, but it appears to be due to cheap and old devices improperly
+implementing the USB mass storage device class.
 
-this program may require newer versions of pyudev
+this program may require newer versions of pyudev (tested with version 16).
+TODO: NOTE ALL VERSION OF LIBRARIES USED!
